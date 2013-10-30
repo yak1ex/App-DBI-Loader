@@ -1,0 +1,70 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+# PODNAME: dbiloader
+# ABSTRACT: A tiny script to load CSV/TSV contents into a database table via DBI
+# VERSION
+
+use App::DBI::Loader;
+
+App::DBI::Loader->run(@ARGV);
+
+__END__
+
+=head1 SYNOPSIS
+
+dbiloader C<-h>
+
+dbiloader [C<-c>] [C<-i E<lt>schemaE<gt>>] [C<-t E<lt>separatorE<gt>>] C<E<lt>connectionE<gt>> C<E<lt>tableE<gt>> C<E<lt>filesE<gt>>...
+
+  # Read TSV and load into mytable in SQLite database t.db
+  dbiloader -t '\t' dbi:SQLite:t.db mytable data.txt
+
+  # Clear mytable, read CSV (default), and load into mytable in SQLite database t.db
+  dbiloader -c dbi:SQLite:t.db mytable data.txt
+
+  # Drop mytalbe if exists, create mytable, read CSV (default), and load into mytable in SQLite database t.db
+  dbiloader -i '(key INTEGER PRIMARY KEY, value INTEGER)' dbi:SQLite:t.db mytable data.txt
+
+=head1 DESCRIPTION
+
+TSV/CSV is a friend of text processing. RDBMS/SQL is a friend of analyzing data.
+I quite often create a working table from a TSV/CSV file. This tiny script is created for the purpose.
+
+=option C<-h>
+
+Show POD help.
+
+=for getopt 'h'
+
+=option C<-t E<lt>separatorE<gt>>
+
+Specify field separator. Defaults to ',' (a comma). This is passed to split.
+
+=for getopt 't:'
+
+=option C<-c>
+
+Clear database before loading.
+
+=for getopt 'c'
+
+=option C<-i E<lt>schemaE<gt>>
+
+Specify table schema. This is appended to 'CREATE TABLE <table>' SQL.
+
+=for getopt 'i:'
+
+=option C<E<lt>connectionE<gt>>
+
+Specify DBI connection string.
+
+=option C<E<lt>tableE<gt>>
+
+Specify table name.
+
+=option C<E<lt>filesE<gt>>...
+
+Specify CSV/TSV files.
