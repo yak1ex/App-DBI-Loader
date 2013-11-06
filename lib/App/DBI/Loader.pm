@@ -30,9 +30,10 @@ sub run
 	my $table = shift @ARGV;
 
 	my $dbh = DBI->connect($dbstr) or die;
-	if(exists $opts{i}) {
+	if($ARGV[0] =~ /\(.*\)/) {
+		my $schema = shift @ARGV;
 		$dbh->do("DROP TABLE IF EXISTS $table");
-		$dbh->do("CREATE TABLE $table $opts{i}");
+		$dbh->do("CREATE TABLE $table $schema");
 	}
 	my $sth;
 
