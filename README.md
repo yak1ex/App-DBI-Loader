@@ -18,9 +18,9 @@ This is an implementation module for a tiny script to load CSV/TSV contents into
 
 ## `run(@arg)`
 
-Process arguments. Typically, `@ARGV` is passed. For details, see [dbiloader](http://search.cpan.org/perldoc?dbiloader).
+Process arguments. Typically, `@ARGV` is passed. For details, see [dbiloader](https://metacpan.org/pod/dbiloader).
 
-- [dbiloader](http://search.cpan.org/perldoc?dbiloader)
+- [dbiloader](https://metacpan.org/pod/dbiloader)
 
 # AUTHOR
 

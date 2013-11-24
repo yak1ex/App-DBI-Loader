@@ -29,7 +29,7 @@ sub run
 	my $dbstr = shift @ARGV;
 	my $table = shift @ARGV;
 
-	my $dbh = DBI->connect($dbstr) or die;
+	my $dbh = DBI->connect($dbstr, $opts{u} || '', $opts{p} || '') or die;
 	if($ARGV[0] =~ /\(.*\)/) {
 		my $schema = shift @ARGV;
 		$dbh->do("DROP TABLE IF EXISTS $table");

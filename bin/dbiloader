@@ -17,7 +17,7 @@ __END__
 
 dbiloader C<-h>
 
-dbiloader [C<-c>] [C<-t E<lt>separatorE<gt>>] C<E<lt>connectionE<gt>> C<E<lt>tableE<gt>> [C<E<lt>schemaE<gt>>] C<E<lt>filesE<gt>>...
+dbiloader [C<-c>] [C<-t E<lt>separatorE<gt>>] [C<-u E<lt>usernameE<gt>>] [C<-p E<lt>passwordE<gt>>] C<E<lt>connectionE<gt>> C<E<lt>tableE<gt>> [C<E<lt>schemaE<gt>>] C<E<lt>filesE<gt>>...
 
   # Read TSV and load into mytable in SQLite database t.db
   dbiloader -t '\t' dbi:SQLite:t.db mytable data.txt
@@ -50,6 +50,18 @@ Specify field separator. Defaults to ',' (a comma). This is passed to split.
 Clear database before loading.
 
 =for getopt 'c'
+
+=option C<-u E<lt>usernameE<gt>>
+
+Specify username.
+
+=for getopt 'u:'
+
+=option C<-p E<lt>passwordE<gt>>
+
+Specify password.
+
+=for getopt 'p:'
 
 =option C<E<lt>connectionE<gt>>
 
