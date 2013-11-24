@@ -11,6 +11,7 @@ use Getopt::Config::FromPod;
 use Pod::Usage;
 
 use DBI;
+use String::Unescape;
 
 sub run
 {
@@ -22,9 +23,8 @@ sub run
 	pod2usage(-verbose => 2) if exists $opts{h};
 	pod2usage(-msg => 'At least 3 arguments MUST be specified', -verbose => 0, -exitval => 1) if @ARGV < 3;
 
-	# FIXME: Should avoid stringy eval
 	$opts{t} ||= '';
-	my $sep = eval("\"$opts{t}\"") || ','; ## no critic (ProhibitStringyEval)
+	my $sep = String::Unescape->unescape($opts{t}) || ',';
 
 	my $dbstr = shift @ARGV;
 	my $table = shift @ARGV;
