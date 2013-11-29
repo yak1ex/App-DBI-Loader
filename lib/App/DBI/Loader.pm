@@ -30,6 +30,9 @@ sub run
 	my $table = shift @ARGV;
 
 	my $dbh = DBI->connect($dbstr, $opts{u} || '', $opts{p} || '') or die;
+	my $has_transaction = 1;
+	eval { $dbh->{AutoCommit} = 0 };
+	$has_transaction = 0 if $@;
 	if($ARGV[0] =~ /\(.*\)/) {
 		my $schema = shift @ARGV;
 		$dbh->do("DROP TABLE IF EXISTS $table");
@@ -40,7 +43,7 @@ sub run
 	}
 	my $sth;
 
-	$dbh->begin_work;
+	$dbh->begin_work if $has_transaction;
 	while(my $file = shift @ARGV) {
 		open my $fh, '<', $file or die;
 		while(<$fh>) {
@@ -50,7 +53,7 @@ sub run
 			$sth->execute(@t);
 		}
 	}
-	$dbh->commit;
+	$dbh->commit if $has_transaction;
 }
 
 1;
