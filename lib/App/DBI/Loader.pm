@@ -35,6 +35,9 @@ sub run
 		$dbh->do("DROP TABLE IF EXISTS $table");
 		$dbh->do("CREATE TABLE $table $schema");
 	}
+	if(exists $opts{c}) {
+		$dbh->do("DELETE FROM $table");
+	}
 	my $sth;
 
 	$dbh->begin_work;
