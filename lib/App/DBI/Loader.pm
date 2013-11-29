@@ -46,7 +46,7 @@ sub run
 		while(<$fh>) {
 			s/[\r\n]+$//;
 			my (@t) = $sep ? split /$sep/ : $_;
-			$sth ||= $dbh->prepare('INSERT INTO '.$table.' VALUES ('.join(',', '?'x @t).')');
+			$sth ||= $dbh->prepare('INSERT INTO '.$table.' VALUES ('.join(',', ('?')x @t).')');
 			$sth->execute(@t);
 		}
 	}
