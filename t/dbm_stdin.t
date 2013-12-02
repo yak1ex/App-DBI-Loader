@@ -35,21 +35,21 @@ sub execute
 }
 
 
-lives_ok { execute(['dbi:DBM:', 'test', '(id INTEGER PRIMARY KEY, value INTEGER)', '-'], "$FindBin::Bin/dat.csv"); }, 'load with default';
+lives_ok { execute(['dbi:DBM:', 'test', '(id INTEGER PRIMARY KEY, value INTEGER)', '-'], "$FindBin::Bin/dat.csv"); } 'load with default';
 
 {
     my $dbh = DBI->connect('dbi:DBM:', '', '');
     is($dbh->selectrow_arrayref('SELECT value FROM test WHERE id = 5')->[0], 80, 'lookup');
 }
 
-lives_ok { execute(['-c', '-t', '\t', 'dbi:DBM:', 'test'], "$FindBin::Bin/dat.tsv"); }, 'load with -t and -c';
+lives_ok { execute(['-c', '-t', '\t', 'dbi:DBM:', 'test'], "$FindBin::Bin/dat.tsv"); } 'load with -t and -c';
 
 {
     my $dbh = DBI->connect('dbi:DBM:', '', '');
     is($dbh->selectrow_arrayref('SELECT value FROM test WHERE id = 5')->[0], 20, 'lookup');
 }
 
-lives_ok { execute(['-t', '\\\\s+', 'dbi:DBM:', 'test', '-'], "$FindBin::Bin/dat.ssv"); }, 'append with -t';
+lives_ok { execute(['-t', '\\\\s+', 'dbi:DBM:', 'test', '-'], "$FindBin::Bin/dat.ssv"); } 'append with -t';
 
 {
     my $dbh = DBI->connect('dbi:DBM:', '', '');
@@ -57,7 +57,7 @@ lives_ok { execute(['-t', '\\\\s+', 'dbi:DBM:', 'test', '-'], "$FindBin::Bin/dat
     is($dbh->selectrow_arrayref('SELECT value FROM test WHERE id = 5')->[0], 20, 'lookup2');
 }
 
-lives_ok { execute(['-c', '-t', '\\\\s+', 'dbi:DBM:', 'test', "$FindBin::Bin/dat.tsv", '-'], "$FindBin::Bin/dat.ssv"); }, 'load multiple 1 with -t and -c';
+lives_ok { execute(['-c', '-t', '\\\\s+', 'dbi:DBM:', 'test', "$FindBin::Bin/dat.tsv", '-'], "$FindBin::Bin/dat.ssv"); } 'load multiple 1 with -t and -c';
 
 {
     my $dbh = DBI->connect('dbi:DBM:', '', '');
@@ -65,7 +65,7 @@ lives_ok { execute(['-c', '-t', '\\\\s+', 'dbi:DBM:', 'test', "$FindBin::Bin/dat
     is($dbh->selectrow_arrayref('SELECT value FROM test WHERE id = 5')->[0], 20, 'lookup2');
 }
 
-lives_ok { execute(['-c', '-t', '\\\\s+', 'dbi:DBM:', 'test', '-', "$FindBin::Bin/dat.ssv", '-'], "$FindBin::Bin/dat.tsv"); }, 'load multiple 2 with -t and -c';
+lives_ok { execute(['-c', '-t', '\\\\s+', 'dbi:DBM:', 'test', '-', "$FindBin::Bin/dat.ssv", '-'], "$FindBin::Bin/dat.tsv"); } 'load multiple 2 with -t and -c';
 
 {
     my $dbh = DBI->connect('dbi:DBM:', '', '');

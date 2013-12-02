@@ -14,7 +14,7 @@ plan tests => 9;
 
 use_ok 'App::DBI::Loader';
 
-lives_ok { App::DBI::Loader->run('dbi:SQLite:test.db', 'test', '(id INTEGER PRIMARY KEY, name TEXT, value INTEGER)', "$FindBin::Bin/dat2.csv"); }, 'load with default';
+lives_ok { App::DBI::Loader->run('dbi:SQLite:test.db', 'test', '(id INTEGER PRIMARY KEY, name TEXT, value INTEGER)', "$FindBin::Bin/dat2.csv"); } 'load with default';
 
 {
     my $dbh = DBI->connect('dbi:SQLite:test.db', '', '');
@@ -23,7 +23,7 @@ lives_ok { App::DBI::Loader->run('dbi:SQLite:test.db', 'test', '(id INTEGER PRIM
     is($dbh->selectrow_arrayref('SELECT name FROM test WHERE value = 30')->[0], 'tenth', 'lookup');
 }
 
-lives_ok { App::DBI::Loader->run('-t', '\t', 'dbi:SQLite:test.db', 'test', "$FindBin::Bin/dat2.tsv"); }, 'load with -t';
+lives_ok { App::DBI::Loader->run('-t', '\t', 'dbi:SQLite:test.db', 'test', "$FindBin::Bin/dat2.tsv"); } 'load with -t';
 
 {
     my $dbh = DBI->connect('dbi:SQLite:test.db', '', '');
