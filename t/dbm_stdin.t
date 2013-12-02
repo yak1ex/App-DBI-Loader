@@ -11,27 +11,27 @@ use_ok 'App::DBI::Loader';
 
 sub execute
 {
-	pipe(FROM_PARENT, TO_CHILD);
-	my $pid = fork;
-	die "fork failed: $!" if ! defined($pid);
-	if($pid) {
-		close FROM_PARENT;
-		open my $fh, '<', $_[1];
-		local $/;
-		my $dat = <$fh>;
-		close $fh;
-		print TO_CHILD $dat;
-		close TO_CHILD;
-		waitpid $pid, 0;
-	} else {
-		close TO_CHILD;
-		# Need to close first, at least, on Win32
-		close STDIN;
-		open STDIN, "<&FROM_PARENT";
-		App::DBI::Loader->run(@{$_[0]});
-		close FROM_PARENT;
-		exit;
-	}
+    pipe(FROM_PARENT, TO_CHILD);
+    my $pid = fork;
+    die "fork failed: $!" if ! defined($pid);
+    if($pid) {
+        close FROM_PARENT;
+        open my $fh, '<', $_[1];
+        local $/;
+        my $dat = <$fh>;
+        close $fh;
+        print TO_CHILD $dat;
+        close TO_CHILD;
+        waitpid $pid, 0;
+    } else {
+        close TO_CHILD;
+        # Need to close first, at least, on Win32
+        close STDIN;
+        open STDIN, "<&FROM_PARENT";
+        App::DBI::Loader->run(@{$_[0]});
+        close FROM_PARENT;
+        exit;
+    }
 }
 
 
