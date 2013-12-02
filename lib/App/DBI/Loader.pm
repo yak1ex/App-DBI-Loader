@@ -44,7 +44,6 @@ sub run
 	}
 	my $sth;
 
-	$dbh->begin_work if $has_transaction;
 	while(my $file = shift @ARGV) {
 		my $fh;
 		if($file eq '-') {
