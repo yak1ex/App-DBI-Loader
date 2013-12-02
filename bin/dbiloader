@@ -17,7 +17,7 @@ __END__
 
 dbiloader C<-h>
 
-dbiloader [C<-c>] [C<-t E<lt>separatorE<gt>>] [C<-u E<lt>usernameE<gt>>] [C<-p E<lt>passwordE<gt>>] C<E<lt>connectionE<gt>> C<E<lt>tableE<gt>> [C<E<lt>schemaE<gt>>] C<E<lt>filesE<gt>>...
+dbiloader [C<-c>] [C<-t E<lt>separatorE<gt>>] [C<-u E<lt>usernameE<gt>>] [C<-p E<lt>passwordE<gt>>] C<E<lt>connectionE<gt>> C<E<lt>tableE<gt>> [C<E<lt>schemaE<gt>>] [C<E<lt>filesE<gt>>...]
 
   # Read TSV and load into mytable in SQLite database t.db
   dbiloader -t '\t' dbi:SQLite:t.db mytable data.txt
@@ -77,4 +77,4 @@ Specify table schema optionally. This is appended to 'CREATE TABLE <table>' SQL.
 
 =option C<E<lt>filesE<gt>>...
 
-Specify CSV/TSV files.
+Specify CSV/TSV files. If omitted or '-' is specified, STDIN is used.

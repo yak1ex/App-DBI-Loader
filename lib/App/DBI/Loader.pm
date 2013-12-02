@@ -21,7 +21,8 @@ sub run
 	my %opts;
 	getopts(Getopt::Config::FromPod->string, \%opts);
 	pod2usage(-verbose => 2) if exists $opts{h};
-	pod2usage(-msg => 'At least 3 arguments MUST be specified', -verbose => 0, -exitval => 1) if @ARGV < 3;
+	pod2usage(-msg => 'At least 2 arguments MUST be specified', -verbose => 0, -exitval => 1) if @ARGV < 2;
+	push @ARGV, '-' if @ARGV == 2;
 
 	$opts{t} ||= '';
 	my $sep = String::Unescape->unescape($opts{t}) || ',';
@@ -45,13 +46,19 @@ sub run
 
 	$dbh->begin_work if $has_transaction;
 	while(my $file = shift @ARGV) {
-		open my $fh, '<', $file or die;
+		my $fh;
+		if($file eq '-') {
+			$fh = \*STDIN;
+		} else {
+			open $fh, '<', $file or die;
+		}
 		while(<$fh>) {
 			s/[\r\n]+$//;
 			my (@t) = $sep ? split /$sep/ : $_;
 			$sth ||= $dbh->prepare('INSERT INTO '.$table.' VALUES ('.join(',', ('?')x @t).')');
 			$sth->execute(@t);
 		}
+		close $fh;
 	}
 	$dbh->commit if $has_transaction;
 }
