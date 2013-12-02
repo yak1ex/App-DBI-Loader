@@ -41,7 +41,7 @@ lives_ok { App::DBI::Loader->run('-c', '-t', '\\\\s+', 'dbi:DBM:', 'test', "$Fin
 
 # cleanup 
 
-{
+END {
     my $dbh = DBI->connect('dbi:DBM:', '', '');
     $dbh->do('DROP TABLE test');
 }

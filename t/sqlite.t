@@ -33,4 +33,6 @@ lives_ok { App::DBI::Loader->run('-t', '\t', 'dbi:SQLite:test.db', 'test', "$Fin
 }
 
 # cleanup 
-unlink 'test.db';
+END {
+    unlink 'test.db';
+}

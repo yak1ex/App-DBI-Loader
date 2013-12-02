@@ -75,7 +75,7 @@ lives_ok { execute(['-c', '-t', '\\\\s+', 'dbi:DBM:', 'test', '-', "$FindBin::Bi
 
 # cleanup
 
-{
+END {
     my $dbh = DBI->connect('dbi:DBM:', '', '');
     $dbh->do('DROP TABLE test');
 }
