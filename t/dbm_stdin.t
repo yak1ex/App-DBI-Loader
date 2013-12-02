@@ -9,6 +9,8 @@ Getopt::Config::FromPod->set_class_default(-file => "$FindBin::Bin/../bin/dbiloa
 
 use_ok 'App::DBI::Loader';
 
+my $parent = 1;
+
 sub execute
 {
     pipe(FROM_PARENT, TO_CHILD);
@@ -24,6 +26,7 @@ sub execute
         close TO_CHILD;
         waitpid $pid, 0;
     } else {
+        $parent = 0;
         close TO_CHILD;
         # Need to close first, at least, on Win32
         close STDIN;
@@ -76,6 +79,8 @@ lives_ok { execute(['-c', '-t', '\\\\s+', 'dbi:DBM:', 'test', '-', "$FindBin::Bi
 # cleanup
 
 END {
-    my $dbh = DBI->connect('dbi:DBM:', '', '');
-    $dbh->do('DROP TABLE test');
+    if($parent) {
+        my $dbh = DBI->connect('dbi:DBM:', '', '');
+        $dbh->do('DROP TABLE test');
+    }
 }
