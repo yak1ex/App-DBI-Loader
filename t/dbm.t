@@ -1,4 +1,4 @@
-use Test::More tests => 8;
+use Test::More tests => 11;
 use Test::Exception;
 
 use FindBin;
@@ -24,6 +24,14 @@ lives_ok { App::DBI::Loader->run('-c', '-t', '\t', 'dbi:DBM:', 'test', "$FindBin
 }
 
 lives_ok { App::DBI::Loader->run('-t', '\\\\s+', 'dbi:DBM:', 'test', "$FindBin::Bin/dat.ssv"); }, 'append with -t';
+
+{
+    my $dbh = DBI->connect('dbi:DBM:', '', '');
+    is($dbh->selectrow_arrayref('SELECT value FROM test WHERE id = 4')->[0], 50, 'lookup1');
+    is($dbh->selectrow_arrayref('SELECT value FROM test WHERE id = 5')->[0], 20, 'lookup2');
+}
+
+lives_ok { App::DBI::Loader->run('-c', '-t', '\\\\s+', 'dbi:DBM:', 'test', "$FindBin::Bin/dat.tsv", "$FindBin::Bin/dat.ssv"); }, 'load multiple with -t and -c';
 
 {
     my $dbh = DBI->connect('dbi:DBM:', '', '');
