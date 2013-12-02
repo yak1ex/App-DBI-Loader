@@ -32,6 +32,7 @@ dbiloader [C<-c>] [C<-t E<lt>separatorE<gt>>] [C<-u E<lt>usernameE<gt>>] [C<-p E
 
 TSV/CSV is a friend of text processing. RDBMS/SQL is a friend of analyzing data.
 I quite often create a working table from a TSV/CSV file. This tiny script is created for the purpose.
+By this script, CSV/TSV contents are loaded into a database table via DBI.
 
 =option C<-h>
 
@@ -42,12 +43,13 @@ Show POD help.
 =option C<-t E<lt>separatorE<gt>>
 
 Specify field separator. Defaults to ',' (a comma). This is passed to split.
+NOTE that field separation is currently done by just a C<split>. Thus, quoting is not correctly handled.
 
 =for getopt 't:'
 
 =option C<-c>
 
-Clear database before loading.
+Clear the specified table before contents loading.
 
 =for getopt 'c'
 
