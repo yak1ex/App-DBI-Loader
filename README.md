@@ -4,7 +4,7 @@ App::DBI::Loader - A tiny script to load CSV/TSV contents into a database table 
 
 # VERSION
 
-version v0.0.0
+version v0.0.1
 
 # SYNOPSIS
 
